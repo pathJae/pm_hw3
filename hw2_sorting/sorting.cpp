@@ -6,36 +6,43 @@ using namespace std;
 bool check_quick(QuickSort *quick_sort) {
 	// check the result of quick sort algorithm
 
+	return true;
 }
 bool check_merge(MergeSort *merge_sort) {
 	// check the result of merge sort algorithm
-
+	return true;
 }
 
 bool check_insertion(InsertionSort *insertion_sort) {
 	// check the result of insertion sort algorithm
-
+	return true;
 }
 
 bool check_stooge(StoogeSort *stooge_sort) {
 	// check the result of stooge sort algorithm
-
+	return true;
 }
 
 bool check_heap(HeapSort *heap_sort) {
 	// check the result of heap sort algorithm
-
+	return true;
 }
 
 int main(int argc, char *argv[]) {
 	double *input_array;
 	int n;
 	cin >> n;
-
+	
 	// implement here
 	// generate random numbers and apply each sorting algorithms
+	input_array = new double[n];
 
-
+	for (int i = 0;i < n;i++) {
+		//input_array[i] = (double)(rand()%1000);
+		input_array[i] =-i+n;
+		cout << input_array[i] << ", ";
+	} 
+	cout<<""<< endl;
 
 	// QuickSort
 	QuickSort *quick_sort = new QuickSort();
@@ -52,8 +59,10 @@ int main(int argc, char *argv[]) {
 	// MergeSort
 	MergeSort *merge_sort = new MergeSort();
 	// implement here
-
-
+	
+	merge_sort->set(input_array, n);
+	merge_sort->run();
+	merge_sort->print_time();
 
 	if (check_merge(merge_sort)) {
 		cout << "MergeSort is validated" << endl << endl;
