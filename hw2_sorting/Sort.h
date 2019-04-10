@@ -5,15 +5,28 @@
 #include <ctime>
 
 using namespace std;
+/*
+Input : array, two address of array
+Output : void
+Fuction Description : swaping array elements
+*/
+void swap(double* &A, int i, int j) {
+	double temp;
+	temp = A[i];
+	A[i] = A[j];
+	A[j] = temp;
+}
 
 class QuickSort {
+	
 public:
 	void print_time() const {
+		cout << fixed;
+		cout.precision(4);
 		cout << "QuickSort : " << seconds << " sec" << endl;
+		cout << arr[0] << ", "<< arr[size - 1] << endl;
 	}
-	
-
-	// implement the following functions
+	friend bool check_quick(QuickSort*);
 	QuickSort() {
 		// constructor
 		size = 10;
@@ -25,54 +38,58 @@ public:
 		// destructor
 		delete[] arr;
 	}
-
+	clock_t begin, end;
 	void run() {
-		// sorting algorithm is applied
-		// elapsed time is also recorded in seconds
-
-		seconds = clock();
-		quick(arr, 0, size-1);
-
-		seconds = clock() - seconds;
-	}
-	void quick(double* arr,int start, int end) {
-		if (start >= end) {
-			return;
-		}
 		
-		int pivot = end;
-		int i = start;
-		int j = pivot - 1;
+		begin = clock();
+		qSort(arr, 0, size - 1);
+		end = clock();
 
-		while (i <= j) { 
-			while (i<=end && arr[i]<=arr[pivot]) {
+		seconds =(double) (end - begin)/ CLOCKS_PER_SEC;
+	}
+
+	/*
+	Input : array, start pointer, end pointer
+	Output : void
+	Fuction Description : recursion fuction
+	*/
+	void qSort(double* arr,int start, int end) {
+		if ((clock() - begin) >= 10* CLOCKS_PER_SEC) {
+			cout << "Terminated due to the time limit" << endl;
+			exit(0);
+		}
+		int partPoint;
+		partPoint = partition(arr, start, end);
+		if (partPoint> start+1) {
+			qSort(arr, start, partPoint -1);
+		}
+		if (partPoint < end) {
+			qSort(arr, partPoint, end);
+		}
+	}
+	/*
+	Input :array, start, end pointer
+	Output : partition pointer.
+	Fuction Description : partioning fuction. 
+	*/
+	int partition(double * arr, int start, int end) {
+		int pivot = arr[start];
+		int i = start;
+		int j = end;
+		while (i <= j) {
+			while (arr[i] < pivot) {
 				i++;
 			}
-
-			while (j>=start &&arr[j]>=arr[pivot]) { 
+			while (arr[j] > pivot) {
 				j--;
 			}
-
-			if(i>j){
-				swap(arr, i, pivot);
-			}
-			else {
+			if (i <= j) {
 				swap(arr, i, j);
+				i++;
+				j--;
 			}
-
-			quick(arr, start, i - 1);
-			quick(arr, i + 1, end);
-		}
+		} return i;
 	}
-
-	void swap(double* &A, int i, int j) {
-		double temp;
-		temp = A[i];
-		A[i] = A[j];
-		A[j] = temp;
-	}
-
-
 
 	void set(double *arr, int size) {
 		// new input array and its size are set
@@ -81,23 +98,21 @@ public:
 		for (int i = 0; i < size; i++) {
 			this->arr[i] = arr[i];
 		}
-
-
 	}
-	
-
 private:
 	double *arr;
 	int size;
-	time_t seconds;
+	double seconds;
 };
 
 class MergeSort {
 public:
+
 	void print_time() const {
 		cout << "MergeSort : " << seconds << " sec" << endl;
+		cout << arr[0] << ", " << arr[size - 1] << endl;
 	}
-
+	friend bool check_merge(MergeSort*);
 	// implement the following functions
 	MergeSort() {
 		// constructor
@@ -141,10 +156,15 @@ public:
 				j++;
 			}
 		}
+		delete[] left;
+		delete[] right;
 	}
 
 	void mergeSort(double*arr, int p,int r) {
-		
+		if ((clock() - begin) >= 10 * CLOCKS_PER_SEC){
+			cout << "Terminated due to the time limit" << endl;
+			exit(0);
+		}
 		if (p < r) {
 			int q = floor((p + r) / 2);
 			mergeSort(arr, p, q);
@@ -153,15 +173,74 @@ public:
 		}
 	}
 	void run() {
-		// sorting algorithm is applied
-		// elapsed time is also recorded in seconds
-		seconds = clock();
-		mergeSort(arr, 0, size-1);
-		seconds = clock() - seconds;
+		
+		begin = clock();
+		mergeSort(arr, 0, size - 1);
+		end = clock();
+
+		seconds = (double) (end - begin) / CLOCKS_PER_SEC;
 	}
 
 	void set(double *arr, int size) {
-		// new input array and its size are set
+		this->size = size;
+		this->arr = new double[size];
+		for (int i = 0; i < size; i++) {
+			this->arr[i] = arr[i];
+		}
+	}
+private:
+	double *arr;
+	int size;
+	double seconds;
+	clock_t begin, end;
+};
+
+class InsertionSort {
+public:
+	void print_time() const {
+		cout << "InsertionSort : " << seconds << " sec" << endl;
+		cout << arr[0] << ", " << arr[size - 1] << endl;
+	}
+	friend bool check_insertion(InsertionSort*);
+
+	// implement the following functions
+	InsertionSort() {
+		// constructor
+		size = 10;
+		arr = new double[size] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+		seconds = 0;
+	}
+
+	~InsertionSort() {
+		// destructor
+		delete[] arr;
+	}
+
+	void run() {
+		
+		begin = clock();
+		insertionSort(arr, size - 1);
+		end = clock();
+
+		seconds = (double)(end - begin) / CLOCKS_PER_SEC;
+	}
+
+	void insertionSort(double * arr, int end) {	
+		for (int i = 1; i <= end; i++) {
+			int pos = i;
+			while (arr[pos - 1] > arr[pos]) {
+				swap(arr, pos - 1, pos);
+				pos--;
+				if (pos <= 0) break;
+				if ((clock() - begin) >= 10 * CLOCKS_PER_SEC) {
+					cout << "Terminated due to the time limit" << endl;
+					exit(0);
+				}
+			}
+		}
+	}
+
+	void set(double *arr, int size) {
 		this->size = size;
 		this->arr = new double[size];
 		for (int i = 0; i < size; i++) {
@@ -172,75 +251,67 @@ public:
 private:
 	double *arr;
 	int size;
-	time_t seconds;
-};
-
-class InsertionSort {
-public:
-	void print_time() const {
-		cout << "InsertionSort : " << seconds << " sec" << endl;
-	}
-
-	// implement the following functions
-	InsertionSort() {
-		// constructor
-	}
-
-	~InsertionSort() {
-		// destructor
-	}
-
-	void run() {
-		// sorting algorithm is applied
-		// elapsed time is also recorded in seconds
-
-	}
-
-
-	void set(double *arr, int size) {
-		// new input array and its size are set
-
-	}
-
-private:
-	double *arr;
-	int size;
-	time_t seconds;
+	double seconds;
+	clock_t begin, end;
 };
 
 class StoogeSort {
 public:
 	void print_time() const {
 		cout << "StoogeSort : " << seconds << " sec" << endl;
+		cout << arr[0] << ", " << arr[size - 1] << endl;
 	}
-
+	friend bool check_stooge(StoogeSort*);
 	// implement the following functions
 	StoogeSort() {
 		// constructor
+		size = 10;
+		arr = new double[size] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+		seconds = 0;
 	}
-
 	~StoogeSort() {
 		// destructor
-
+		delete[] arr;
 	}
-
 	void run() {
-		// sorting algorithm is applied
-		// elapsed time is also recorded are seconds
+		
+		begin = clock();
+		stoogeSort(arr,0, size - 1);
+		end = clock();
 
+		seconds = (double)(end - begin) / CLOCKS_PER_SEC;
 	}
-
-
+	void stoogeSort(double *arr, int start, int end) {
+		if ((clock() - begin) >= 10 * CLOCKS_PER_SEC) {
+			cout << "Terminated due to the time limit" << endl;
+			exit(0);
+		}
+		if (start >= end) return;
+		else if (end - start == 1) {
+			if (arr[start] > arr[end]) {
+				swap(arr, start, end);
+			}
+		}
+		else {
+			int d = floor((end - start + 1) / 3);
+			stoogeSort(arr, start, end - d);
+			stoogeSort(arr, start + d, end);
+			stoogeSort(arr, start, end - d);
+		}
+	}
 	void set(double *arr, int size) {
 		// new input array and its size are set
-
+		this->size = size;
+		this->arr = new double[size];
+		for (int i = 0; i < size; i++) {
+			this->arr[i] = arr[i];
+		}
 	}
-
-
 private:
 	double *arr;
 	int size;
-	time_t seconds;
+	double seconds;
+	clock_t begin, end;
 };
 
 class HeapSort {
@@ -248,23 +319,33 @@ public:
 	void print_time() const {
 		cout << "HeapSort : " << seconds << " sec" << endl;
 	}
-
+	friend bool check_heap(HeapSort *);
 	// implement the following functions
 	HeapSort() {
 		// constructor
+		size = 10;
+		arr = new double[size] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+		seconds = 0;
 	}
 
 	~HeapSort() {
 		// destructor
-
+		delete[] arr;
 	}
 
 	void run() {
-		// sorting algorithm is applied
-		// elapsed time is also recorded are seconds
+		clock_t begin, end;
+		begin = clock();
+		heapSort(arr, size - 1);
+		end = clock();
+
+		seconds = (end - begin) / CLOCKS_PER_SEC;
+
 
 	}
+	void heapSort(double * arr, int i) {
 
+	}
 
 	void set(double *arr, int size) {
 		// new input array and its size are set
@@ -275,7 +356,7 @@ public:
 private:
 	double *arr;
 	int size;
-	time_t seconds;
+	double seconds;
 };
 
 #endif

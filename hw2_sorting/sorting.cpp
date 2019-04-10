@@ -5,27 +5,46 @@ using namespace std;
 
 bool check_quick(QuickSort *quick_sort) {
 	// check the result of quick sort algorithm
-
-	return true;
+	int checkIndex=0;
+	for (int i = 0; i < quick_sort->size-1; i++) {
+		checkIndex += (quick_sort->arr[i + 1] - quick_sort->arr[i]>=0)?0:1;
+	}
+	return checkIndex==0?true:false;
 }
 bool check_merge(MergeSort *merge_sort) {
 	// check the result of merge sort algorithm
-	return true;
+	int checkIndex = 0;
+	for (int i = 0; i < merge_sort->size - 1; i++) {
+		checkIndex += (merge_sort->arr[i + 1] - merge_sort->arr[i] >= 0) ? 0 : 1;
+	}
+	return checkIndex == 0 ? true : false;
 }
 
 bool check_insertion(InsertionSort *insertion_sort) {
 	// check the result of insertion sort algorithm
-	return true;
+	int checkIndex = 0;
+	for (int i = 0; i < insertion_sort->size - 1; i++) {
+		checkIndex += (insertion_sort->arr[i + 1] - insertion_sort->arr[i] >= 0) ? 0 : 1;
+	}
+	return checkIndex == 0 ? true : false;
 }
 
 bool check_stooge(StoogeSort *stooge_sort) {
 	// check the result of stooge sort algorithm
-	return true;
+	int checkIndex = 0;
+	for (int i = 0; i < stooge_sort->size - 1; i++) {
+		checkIndex += (stooge_sort->arr[i + 1] - stooge_sort->arr[i] >= 0) ? 0 : 1;
+	}
+	return checkIndex == 0 ? true : false;
 }
 
 bool check_heap(HeapSort *heap_sort) {
 	// check the result of heap sort algorithm
-	return true;
+	int checkIndex = 0;
+	for (int i = 0; i < heap_sort->size - 1; i++) {
+		checkIndex += (heap_sort->arr[i + 1] - heap_sort->arr[i] >= 0) ? 0 : 1;
+	}
+	return checkIndex == 0 ? true : false;
 }
 
 int main(int argc, char *argv[]) {
@@ -33,18 +52,12 @@ int main(int argc, char *argv[]) {
 	int n;
 	cin >> n;
 	
-	// implement here
-	// generate random numbers and apply each sorting algorithms
 	input_array = new double[n];
-
 	for (int i = 0;i < n;i++) {
 		input_array[i] = (double)(rand() % 10000);
-		//nput_array[i] =-i+n;
 	}
 	// QuickSort
-
 	QuickSort *quick_sort = new QuickSort();
-	// implement here
 	
 	quick_sort->set(input_array, n);
 	quick_sort->run();
@@ -58,8 +71,6 @@ int main(int argc, char *argv[]) {
 
 	// MergeSort
 	MergeSort *merge_sort = new MergeSort();
-	// implement here
-	
 	merge_sort->set(input_array, n);
 	merge_sort->run();
 	merge_sort->print_time();
@@ -72,8 +83,9 @@ int main(int argc, char *argv[]) {
 
 	// InsertionSort
 	InsertionSort *insertion_sort = new InsertionSort();
-	// implement here
-
+	insertion_sort->set(input_array, n);
+	insertion_sort->run();
+	insertion_sort->print_time();
 
 	if (check_insertion(insertion_sort)) {
 		cout << "InsertionSort is validated" << endl << endl;
@@ -82,8 +94,9 @@ int main(int argc, char *argv[]) {
 
 	// StoogeSort
 	StoogeSort *stooge_sort = new StoogeSort();
-	// implement here
-
+	stooge_sort->set(input_array, n);
+	stooge_sort->run();
+	stooge_sort->print_time();
 	if (check_stooge(stooge_sort)) {
 		cout << "StoogeSort is validated" << endl;
 	}
