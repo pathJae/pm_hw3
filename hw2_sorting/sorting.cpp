@@ -38,17 +38,17 @@ int main(int argc, char *argv[]) {
 	input_array = new double[n];
 
 	for (int i = 0;i < n;i++) {
-		//input_array[i] = (double)(rand()%1000);
-		input_array[i] =-i+n;
-		cout << input_array[i] << ", ";
-	} 
-	cout<<""<< endl;
-
+		input_array[i] = (double)(rand() % 10000);
+		//nput_array[i] =-i+n;
+	}
 	// QuickSort
+
 	QuickSort *quick_sort = new QuickSort();
 	// implement here
-
-
+	
+	quick_sort->set(input_array, n);
+	quick_sort->run();
+	quick_sort->print_time();
 
 	if (check_quick(quick_sort)) {
 		cout << "QuickSort is validated" << endl << endl;
