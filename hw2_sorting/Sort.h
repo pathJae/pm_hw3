@@ -42,6 +42,9 @@ public:
 		qSort(arr, 0, size - 1);
 		end = clock();
 		seconds = (double)(end - begin) / CLOCKS_PER_SEC;
+		if (returnIndex) {
+			cout << "Terminated due to the time limit" << endl;
+		}
 	}
 
 	/*
@@ -50,9 +53,10 @@ public:
 	Fuction Description : recursion fuction
 	*/
 	void qSort(double* arr,int start, int end) {
-		/*if ((clock() - begin) >= 10000) {
-			cout << "Terminated due to the time limit" << endl;
-		}*/
+		if ((clock() - begin) >= 10000) {
+			returnIndex = 1;
+			return;
+		}
 		int partPoint = partition(arr, start, end);
 		if (partPoint> start+1) {
 			qSort(arr, start, partPoint -1);
@@ -98,6 +102,7 @@ private:
 	int size;
 	double seconds;
 	clock_t begin, end;
+	int returnIndex;
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -118,6 +123,30 @@ public:
 	~MergeSort() {
 		// destructor
 		delete[] arr;
+	}
+	void run() {
+
+		begin = clock();
+		mergeSort(arr, 0, size - 1);
+		end = clock();
+
+		seconds = (double)(end - begin) / CLOCKS_PER_SEC;
+		if (returnIndex) {
+			cout << "Terminated due to the time limit" << endl;
+		}
+	}
+
+	void mergeSort(double*arr, int p, int r) {
+		if ((clock() - begin) >= 10000) {
+			returnIndex = 1;
+			return;;
+		}
+		if (p < r) {
+			int q = floor((p + r) / 2);
+			mergeSort(arr, p, q);
+			mergeSort(arr, q + 1, r);
+			merge(arr, p, q, r);
+		}
 	}
 
 	void merge(double * arr, int p, int q, int r) {
@@ -154,26 +183,6 @@ public:
 		delete[] right;
 	}
 
-	void mergeSort(double*arr, int p,int r) {
-		/*if ((clock() - begin) >= 10000) {
-			cout << "Terminated due to the time limit" << endl;
-			exit(0);
-		}*/
-		if (p < r) {
-			int q = floor((p + r) / 2);
-			mergeSort(arr, p, q);
-			mergeSort(arr, q + 1, r);
-			merge(arr,p,q,r);
-		}
-	}
-	void run() {
-		
-		begin = clock();
-		mergeSort(arr, 0, size - 1);
-		end = clock();
-
-		seconds = (double) (end - begin) / CLOCKS_PER_SEC;
-	}
 
 	void set(double *arr, int size) {
 		this->size = size;
@@ -187,6 +196,7 @@ private:
 	int size;
 	double seconds;
 	clock_t begin, end;
+	int returnIndex;
 };
 /////////////////////////////////////////////////////////////////////////////
 class InsertionSort {
@@ -216,19 +226,23 @@ public:
 		end = clock();
 
 		seconds = (double)(end - begin) / CLOCKS_PER_SEC;
+		if (returnIndex) {
+			cout << "Terminated due to the time limit" << endl;
+		}
 	}
 
 	void insertionSort(double * arr, int end) {	
 		for (int i = 1; i <= end; i++) {
+			if ((clock() - begin) >= 10000) {
+				returnIndex = 1;
+				return;
+			}
 			int pos = i;
 			while (arr[pos - 1] > arr[pos]) {
 				swap(arr, pos - 1, pos);
 				pos--;
 				if (pos <= 0) break;
-				/*if ((clock() - begin) >= 10000) {
-					cout << "Terminated due to the time limit" << endl;
-					exit(0);
-				}*/
+			
 			}
 		}
 	}
@@ -246,6 +260,7 @@ private:
 	int size;
 	double seconds;
 	clock_t begin, end;
+	int returnIndex;
 };
 /////////////////////////////////////////////////////////////////////////////
 class StoogeSort {
@@ -271,18 +286,16 @@ public:
 		begin = clock();
 		stoogeSort(arr,0, size - 1);
 		end = clock();
-
-		
-			seconds = (double)(end - begin) / CLOCKS_PER_SEC;
+		seconds = (double)(end - begin) / CLOCKS_PER_SEC;
 		if(returnIndex) {
 			cout << "Terminated due to the time limit" << endl;
 		}
 	}
 	void stoogeSort(double *arr, int start, int end) {
-		/*if ((clock() - begin) >= 10000) {
+		if ((clock() - begin) >= 10000) {
 				returnIndex = 1;
 				return;
-		}*/
+		}
 		if (start >= end) return;
 		else if (end - start == 1) {
 			if (arr[start] > arr[end]) {
@@ -336,19 +349,23 @@ public:
 		end = clock();
 
 		seconds = (double) (end - begin) / CLOCKS_PER_SEC;
-
+		if (returnIndex) {
+			cout << "Terminated due to the time limit" << endl;
+		}
 
 	}
 	void heapSort(double * arr) {
 		buildMaxHeap(arr,this->size);
+		int internalMax;
 		for (int i = size; i > 0;i--) {
-			swap(arr, 0,i - 1);
-			//int internalMax = floor(i / 2);
-			buildMaxHeap(arr, i-1);
 			if ((clock() - begin) >= 10000) {
-				cout << "Terminated due to the time limit" << endl;
-				exit(0);
+				returnIndex = 1;
+				return;
 			}
+			swap(arr, 0,i - 1);
+
+			internalMax = floor(i-1 / 2);
+			heapify(arr, 1,i-1);
 		}
 	}
 
@@ -359,14 +376,14 @@ public:
 		}
 	}
 	void heapify(double* arr, int j, int heapSize) {
-		int maxNode = compareHeap(arr, j, heapSize);
+		int maxNode = maxAmong3(arr, j, heapSize);
 		if(maxNode !=j) {
 			swap(arr, j-1, maxNode-1);
 			heapify(arr, maxNode, heapSize);
 		}
 	}
 
-	int compareHeap(double* arr, int parent, int heapSize) {
+	int maxAmong3(double* arr, int parent, int heapSize) {
 		int left = 2 * parent;
 		int right = 2 * parent + 1;
 		if (left > heapSize) {
@@ -395,6 +412,7 @@ private:
 	int size;
 	double seconds;
 	clock_t begin, end;
+	int returnIndex;
 };
 
 #endif

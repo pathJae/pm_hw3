@@ -1,6 +1,7 @@
 ﻿  sorting.cpp
-c:\users\jawon\documents\_git_saved\hw2_sorting\hw2_sorting\sort.h(70): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\jawon\documents\_git_saved\hw2_sorting\hw2_sorting\sort.h(163): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\jawon\documents\_git_saved\hw2_sorting\hw2_sorting\sort.h(293): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\jawon\documents\_git_saved\hw2_sorting\hw2_sorting\sort.h(356): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jawon\documents\_git_saved\hw2_sorting\hw2_sorting\sort.h(74): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jawon\documents\_git_saved\hw2_sorting\hw2_sorting\sort.h(145): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jawon\documents\_git_saved\hw2_sorting\hw2_sorting\sort.h(306): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jawon\documents\_git_saved\hw2_sorting\hw2_sorting\sort.h(367): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\jawon\documents\_git_saved\hw2_sorting\hw2_sorting\sort.h(373): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   hw2_sorting.vcxproj -> C:\Users\Jawon\Documents\_git_saved\hw2_sorting\Debug\hw2_sorting.exe
