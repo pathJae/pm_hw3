@@ -3,14 +3,13 @@
 
 #include <iostream>
 #include <ctime>
-
 using namespace std;
 /*
 Input : array, two address of array
 Output : void
 Fuction Description : swaping array elements
 */
-void swap(double* &A, int i, int j) {
+void swap(double* (&A), int i, int j) {
 	double temp;
 	temp = A[i];
 	A[i] = A[j];
@@ -24,28 +23,25 @@ public:
 		cout << fixed;
 		cout.precision(4);
 		cout << "QuickSort : " << seconds << " sec" << endl;
-		cout << arr[0] << ", "<< arr[size - 1] << endl;
 	}
+	// friend fuctinon
 	friend bool check_quick(QuickSort*);
-	QuickSort() {
+
+	QuickSort() : size(10), seconds(0){
 		// constructor
-		size = 10;
 		arr = new double[size] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-		seconds = 0;
 	}
 
 	~QuickSort() {
 		// destructor
 		delete[] arr;
 	}
-	clock_t begin, end;
+
 	void run() {
-		
 		begin = clock();
 		qSort(arr, 0, size - 1);
 		end = clock();
-
-		seconds =(double) (end - begin)/ CLOCKS_PER_SEC;
+		seconds = (double)(end - begin) / CLOCKS_PER_SEC;
 	}
 
 	/*
@@ -54,12 +50,10 @@ public:
 	Fuction Description : recursion fuction
 	*/
 	void qSort(double* arr,int start, int end) {
-		if ((clock() - begin) >= 10* CLOCKS_PER_SEC) {
+		/*if ((clock() - begin) >= 10000) {
 			cout << "Terminated due to the time limit" << endl;
-			exit(0);
-		}
-		int partPoint;
-		partPoint = partition(arr, start, end);
+		}*/
+		int partPoint = partition(arr, start, end);
 		if (partPoint> start+1) {
 			qSort(arr, start, partPoint -1);
 		}
@@ -103,14 +97,14 @@ private:
 	double *arr;
 	int size;
 	double seconds;
+	clock_t begin, end;
 };
 
+////////////////////////////////////////////////////////////////////////
 class MergeSort {
 public:
-
 	void print_time() const {
 		cout << "MergeSort : " << seconds << " sec" << endl;
-		cout << arr[0] << ", " << arr[size - 1] << endl;
 	}
 	friend bool check_merge(MergeSort*);
 	// implement the following functions
@@ -161,10 +155,10 @@ public:
 	}
 
 	void mergeSort(double*arr, int p,int r) {
-		if ((clock() - begin) >= 10 * CLOCKS_PER_SEC){
+		/*if ((clock() - begin) >= 10000) {
 			cout << "Terminated due to the time limit" << endl;
 			exit(0);
-		}
+		}*/
 		if (p < r) {
 			int q = floor((p + r) / 2);
 			mergeSort(arr, p, q);
@@ -194,12 +188,11 @@ private:
 	double seconds;
 	clock_t begin, end;
 };
-
+/////////////////////////////////////////////////////////////////////////////
 class InsertionSort {
 public:
 	void print_time() const {
 		cout << "InsertionSort : " << seconds << " sec" << endl;
-		cout << arr[0] << ", " << arr[size - 1] << endl;
 	}
 	friend bool check_insertion(InsertionSort*);
 
@@ -232,10 +225,10 @@ public:
 				swap(arr, pos - 1, pos);
 				pos--;
 				if (pos <= 0) break;
-				if ((clock() - begin) >= 10 * CLOCKS_PER_SEC) {
+				/*if ((clock() - begin) >= 10000) {
 					cout << "Terminated due to the time limit" << endl;
 					exit(0);
-				}
+				}*/
 			}
 		}
 	}
@@ -254,12 +247,11 @@ private:
 	double seconds;
 	clock_t begin, end;
 };
-
+/////////////////////////////////////////////////////////////////////////////
 class StoogeSort {
 public:
 	void print_time() const {
 		cout << "StoogeSort : " << seconds << " sec" << endl;
-		cout << arr[0] << ", " << arr[size - 1] << endl;
 	}
 	friend bool check_stooge(StoogeSort*);
 	// implement the following functions
@@ -268,6 +260,7 @@ public:
 		size = 10;
 		arr = new double[size] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 		seconds = 0;
+		returnIndex=0;
 	}
 	~StoogeSort() {
 		// destructor
@@ -279,13 +272,17 @@ public:
 		stoogeSort(arr,0, size - 1);
 		end = clock();
 
-		seconds = (double)(end - begin) / CLOCKS_PER_SEC;
+		
+			seconds = (double)(end - begin) / CLOCKS_PER_SEC;
+		if(returnIndex) {
+			cout << "Terminated due to the time limit" << endl;
+		}
 	}
 	void stoogeSort(double *arr, int start, int end) {
-		if ((clock() - begin) >= 10 * CLOCKS_PER_SEC) {
-			cout << "Terminated due to the time limit" << endl;
-			exit(0);
-		}
+		/*if ((clock() - begin) >= 10000) {
+				returnIndex = 1;
+				return;
+		}*/
 		if (start >= end) return;
 		else if (end - start == 1) {
 			if (arr[start] > arr[end]) {
@@ -298,6 +295,7 @@ public:
 			stoogeSort(arr, start + d, end);
 			stoogeSort(arr, start, end - d);
 		}
+
 	}
 	void set(double *arr, int size) {
 		// new input array and its size are set
@@ -312,8 +310,9 @@ private:
 	int size;
 	double seconds;
 	clock_t begin, end;
+	int returnIndex;
 };
-
+/////////////////////////////////////////////////////////////////////////////
 class HeapSort {
 public:
 	void print_time() const {
@@ -321,11 +320,9 @@ public:
 	}
 	friend bool check_heap(HeapSort *);
 	// implement the following functions
-	HeapSort() {
+	HeapSort():size(10),seconds(0){
 		// constructor
-		size = 10;
 		arr = new double[size] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-		seconds = 0;
 	}
 
 	~HeapSort() {
@@ -334,22 +331,62 @@ public:
 	}
 
 	void run() {
-		clock_t begin, end;
 		begin = clock();
-		heapSort(arr, size - 1);
+		heapSort(arr);
 		end = clock();
 
-		seconds = (end - begin) / CLOCKS_PER_SEC;
+		seconds = (double) (end - begin) / CLOCKS_PER_SEC;
 
 
 	}
-	void heapSort(double * arr, int i) {
-
+	void heapSort(double * arr) {
+		buildMaxHeap(arr,this->size);
+		for (int i = size; i > 0;i--) {
+			swap(arr, 0,i - 1);
+			//int internalMax = floor(i / 2);
+			buildMaxHeap(arr, i-1);
+			if ((clock() - begin) >= 10000) {
+				cout << "Terminated due to the time limit" << endl;
+				exit(0);
+			}
+		}
 	}
 
+	void buildMaxHeap(double *arr, int size) {
+		int internalMax = floor(size / 2);
+		for (int i = internalMax; i > 0;i--) {
+			heapify(arr, i, size);
+		}
+	}
+	void heapify(double* arr, int j, int heapSize) {
+		int maxNode = compareHeap(arr, j, heapSize);
+		if(maxNode !=j) {
+			swap(arr, j-1, maxNode-1);
+			heapify(arr, maxNode, heapSize);
+		}
+	}
+
+	int compareHeap(double* arr, int parent, int heapSize) {
+		int left = 2 * parent;
+		int right = 2 * parent + 1;
+		if (left > heapSize) {
+			return parent;
+		}
+		else if (right > heapSize) {
+			return(arr[parent-1] - arr[left-1] >= 0) ? parent : left;
+		}
+		else
+		{
+			return (arr[parent-1] - arr[left-1] >= 0) ? (arr[parent-1] - arr[right-1] >= 0 ? parent : right) : (arr[left-1] - arr[right-1] >= 0 ? left : right);
+		}
+	}
 	void set(double *arr, int size) {
 		// new input array and its size are set
-
+		this->size = size;
+		this->arr = new double[size];
+		for (int i = 0; i < size; i++) {
+			this->arr[i] = arr[i];
+		}
 	}
 
 
@@ -357,6 +394,7 @@ private:
 	double *arr;
 	int size;
 	double seconds;
+	clock_t begin, end;
 };
 
 #endif

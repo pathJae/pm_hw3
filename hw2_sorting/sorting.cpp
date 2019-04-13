@@ -92,26 +92,29 @@ int main(int argc, char *argv[]) {
 	}
 	delete insertion_sort;
 
+
 	// StoogeSort
 	StoogeSort *stooge_sort = new StoogeSort();
 	stooge_sort->set(input_array, n);
 	stooge_sort->run();
 	stooge_sort->print_time();
 	if (check_stooge(stooge_sort)) {
-		cout << "StoogeSort is validated" << endl;
+		cout << "StoogeSort is validated" << endl<<endl;
 	}
 	delete stooge_sort;
-
+	
 
 	// HeapSort
 	HeapSort *heap_sort = new HeapSort();
-	// implement here
+	heap_sort->set(input_array, n);
+	heap_sort->run();
+	heap_sort->print_time();
 
 	if (check_heap(heap_sort)) {
 		cout << "HeapSort is validated" << endl;
 	}
 	delete heap_sort;
 
-
+	delete[] input_array;
 	return 0;
 }
